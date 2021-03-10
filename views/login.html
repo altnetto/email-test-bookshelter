@@ -1,34 +1,10 @@
 {% extends 'base.html' %}
 
+
+{% from "macros/render_form.html" import render_form with context  %}
+
 {% block content %}
 
-<div class = 'container form'>
-    <form action="{{ url_for('bp.login') }}" method="post">
-
-        <!-- Aqui, adiciona-se o token CSRF, para evitar envio cruzado de informações
-        e consequentes roubos de informação -->
-        {{ form.csrf_token }}
-
-        <fieldset>
-            <div class="form-group" style='width: 30%'>
-                <label for="email">Email</label>
-                {{ form.email(class_='form-control') }}
-
-                <label for="password">Password</label>
-                {{ form.password(class_='form-control mb-2') }}
-
-            </div>
-
-            {{ form.submit(class_='btn btn-info btn-block btn-m') }}
-            {% include 'components/voltar.html' %} 
-            <div class="form-check mt-2">
-                {{ form.remember(class_='form-check-input') }}
-                <label class="form-check-label" for="exampleCheck1">Permanecer Conectado</label>
-              </div>
-
-              <!-- {{ form.errors }} Aqui podemos ver os erros do formulário. -->
-        </fieldset>
-    </form>
-</div>
+{{ render_form(form) }}
 
 {% endblock %}
