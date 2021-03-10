@@ -61,31 +61,24 @@ def login():
 
     if form.validate_on_submit():
 
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        if request.form.get('remember'):
+        if form.remember.data:
             remember = True
         else:
             remember = False
 
-        # remember = request.form['remember']
-
-        user = User.query.filter_by(email=email).first()
-
-        # flash('email: {0} pass: {1}'.format(user.email, user.password),'message')
+        user = User.query.filter_by(email=form.email.data).first()
 
         if not user:
             errors['error'] = 'Credenciais Incorretas'
             flash(message=errors['error'], category='warning')
             return redirect(url_for('bp.login'))
 
-        if not check_password_hash(user.password, password):
+        if not check_password_hash(user.password, form.password.data):
             errors['error'] = 'Credenciais Incorretas'
             flash(message=errors['error'], category='warning')
             return redirect(url_for('bp.login'))
 
-        login_user(user, remember=remember, duration=timedelta(hours=2))
+        login_user(user, remember=form.remember.data, duration=timedelta(hours=2))
         flash(message='Usuário {0} logado com sucesso'.format(user.email), category='success')
         return redirect(url_for('bp.index'))
 
