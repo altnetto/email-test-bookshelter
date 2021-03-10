@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <h1>Users</h1>
+    <table class="table">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Photo</th>
+            
+            {% if current_user.is_authenticated %}
+                <th>Delete</th>
+            {% endif %}
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>    
+                <td>{{ user.email }}</td>
+                <td>{{ user.profile.photo }}</td>
+            {% if current_user.is_authenticated %}
+                <td> 
+                    <a class="btn btn-danger btn-sm" href="{{ url_for('bp.delete', id=user.id) }}">
+                        <i class="fa fa-trash " aria-hidden="true"></i>
+                    </a> 
+                </td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% if current_user.is_authenticated %}
+    
+        <a href="{{ url_for('bp.form_new_user') }}">
+            <button class="btn btn-primary">New User</button>
+        </a> 
+        <a href="{{ url_for('bp.logout') }}">
+            <button class="btn btn-danger">Logout</button>
+        </a>
+
+    {% else %}
+
+        <a href="{{ url_for('bp.login') }}">
+            <button class="btn btn-success">Login</button>
+        </a>
+        
+    {% endif %}
+
+{% endblock %}
