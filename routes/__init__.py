@@ -3,7 +3,7 @@ from flask_login import login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Profile, db, login_manager
 from datetime import timedelta
-from dinForms.forms import LoginForm
+from dinForms.forms import LoginForm, RegisterForm
 
 bp = Blueprint('bp', __name__)
 
@@ -15,11 +15,11 @@ def index():
 
 @bp.route('/add', methods=['POST'])
 @login_required
-def add_new_user():
-    name = request.form.get('name')
-    email = request.form.get('email')
-    password = generate_password_hash(request.form.get('password'))
-    photo = request.form.get('photo')
+def add_new_user(form):
+    name = form.name.data
+    email = form.email.data
+    password = generate_password_hash(form.password.data)
+    photo = form.photo.data
 
     if User.query.filter_by(email=email).first():
         return 'Erro: E-mail já cadastrado!'
@@ -46,10 +46,36 @@ def delete(id):
     return redirect(url_for('bp.index'))
 
 
-@bp.route('/new')
+@bp.route('/new', methods=['GET', 'POST'])
 @login_required
 def form_new_user():
-    return render_template('new.html', title='New User')
+
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+
+        name = form.name.data
+        email = form.email.data
+        password = generate_password_hash(form.password.data)
+        photo = form.photo.data
+
+        if User.query.filter_by(email=email).first():
+            return 'Erro: E-mail já cadastrado!'
+
+        new_user = User(name=name, email=email, password=password)
+        
+        db.session.add(new_user)
+        db.session.commit()
+
+        new_profile = Profile(photo = photo, user_id = new_user.id)
+
+        db.session.add(new_profile)
+        db.session.commit()
+
+        return redirect(url_for('bp.index'))
+
+
+    return render_template('new.html', title='New User', form=form)
 
 
 @bp.route('/login', methods = ['GET','POST'])

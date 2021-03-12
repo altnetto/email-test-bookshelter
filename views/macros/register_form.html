@@ -1,0 +1,29 @@
+{% macro register_form(form) %}
+
+    <div class = 'container form'>
+        <form action="{{ url_for('bp.form_new_user') }}" method="post">
+            {{ form.csrf_token }}
+            <fieldset>
+                <div class="form-group" style='width: 30%'>
+                    <label for="name">Name</label>
+                    {{ form.name(class_='form-control') }}
+
+                    <label for="email">Email</label>
+                    {{ form.email(class_='form-control') }}
+
+                    <label for="password">Password</label>
+                    {{ form.password(class_='form-control') }}
+
+                    <label for="photo">Photo</label>
+                    {{ form.photo(class_='form-control mb-2') }}
+                </div>
+
+                {{ form.submit(class_='btn btn-info btn-block btn-m') }}
+                
+                {% include 'components/voltar.html' %} 
+
+            </fieldset>
+        </form>
+    </div>
+
+{% endmacro %}

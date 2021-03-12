@@ -1,29 +1,9 @@
 {% extends 'base.html' %}
 
+{% from "macros/register_form.html" import register_form with context  %}
+
 {% block content %}
 
-    <div class = 'container form'>
-        <form action="{{ url_for('bp.add_new_user') }}" method="post">
-            <fieldset>
-                <div class="form-group" style='width: 30%'>
-                    <label for="name">Name</label>
-                    <input type="text" name="name" placeholder="Ex: John Smith" class="form-control" required><br>
-
-                    <label for="email">Email</label>
-                    <input type="email" name="email" placeholder="Ex: email@email.com" class="form-control" required><br>
-
-                    <label for="password">Password</label>
-                    <input type="password" name="password" placeholder="******" class="form-control" required><br>
-
-                    <label for="photo">Photo</label>
-                    <input type="text" name="photo" placeholder="Ex: photo.jpg" class="form-control" required><br>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Create User</button>
-                
-                {% include 'components/voltar.html' %} 
-            </fieldset>
-        </form>
-    </div>
+{{ register_form(form) }}
 
 {% endblock %}
