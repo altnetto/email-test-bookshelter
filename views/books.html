@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% from 'macros/book_form.html' import book_form with context  %}
+
 {% block content %}
 
 <div class="container">
@@ -10,7 +12,9 @@
             <li class="list-group-item">{{ book.name }}</li>
         {% endfor %}
     </ul>
-    
+
+    {{ book_form(form, id) }}
+
 </div>
 
 {% endblock %}

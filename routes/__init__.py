@@ -3,7 +3,7 @@ from flask_login import login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Profile, db, login_manager, Book
 from datetime import timedelta
-from dinForms.forms import LoginForm, RegisterForm
+from dinForms.forms import LoginForm, RegisterForm, BookForm
 
 bp = Blueprint('bp', __name__)
 
@@ -119,10 +119,23 @@ def logout():
     return redirect(url_for('bp.index'))
 
 
-@bp.route('/user/<int:id>/books')
+@bp.route('/user/<int:id>/books', methods=["GET", "POST"])
 @login_required
 def list_books(id):
 
     books = Book.query.filter_by(user_id = id).all()
+    
+    form = BookForm()
 
-    return render_template('books.html', books = books)
+    if form.validate_on_submit():
+
+        name = form.name.data
+
+        new_book = Book(name = name, user_id = id)
+
+        db.session.add(new_book)
+        db.session.commit()
+
+        return redirect(url_for('bp.list_books', id=id))
+
+    return render_template('books.html',title="Bookshelter" , books = books, form = form, id=id)

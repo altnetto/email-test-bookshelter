@@ -26,3 +26,10 @@ class RegisterForm(FlaskForm):
     ])
     photo = StringField('photo')
     submit = SubmitField('Cadastrar')
+
+
+class BookForm(FlaskForm):
+    name = StringField('Nome', validators=[
+        Length(2,125, "O campo deve conter entre 2 e 125 caracteres")
+    ])
+    submit = SubmitField('Adicionar')

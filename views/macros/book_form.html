@@ -1,0 +1,20 @@
+{% macro book_form(form, id) %}
+
+    <div class = 'container form'>
+        <form action="{{ url_for('bp.list_books', id=id) }}" method="POST">
+            {{ form.csrf_token }}
+            <fieldset>
+                <div class="form-group mb-3" style='width: 30%'>
+                    <label for="name">Name</label>
+                    {{ form.name(class_='form-control') }}
+                </div>
+
+                {{ form.submit(class_='btn btn-info btn-block btn-m') }}
+                
+                {% include 'components/voltar.html' %} 
+
+            </fieldset>
+        </form>
+    </div>
+
+{% endmacro %}

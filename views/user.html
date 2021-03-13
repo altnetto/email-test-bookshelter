@@ -17,7 +17,11 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
-                <td><a href="{{ url_for('bp.list_books', id=user.id) }}">{{ user.name }}</a></td>    
+                {% if current_user.is_authenticated %}
+                    <td><a href="{{ url_for('bp.list_books', id=user.id) }}">{{ user.name }}</a></td>
+                {% else %}    
+                    <td>{{ user.name }}</td>    
+                {% endif %}
                 <td>{{ user.email }}</td>
                 <td>{{ user.profile.photo }}</td>
             {% if current_user.is_authenticated %}
