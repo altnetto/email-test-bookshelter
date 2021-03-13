@@ -1,7 +1,7 @@
 from flask import Blueprint, request, Response, render_template, redirect, url_for, flash
 from flask_login import login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import User, Profile, db, login_manager
+from models import User, Profile, db, login_manager, Book
 from datetime import timedelta
 from dinForms.forms import LoginForm, RegisterForm
 
@@ -119,18 +119,10 @@ def logout():
     return redirect(url_for('bp.index'))
 
 
-@bp.route('/users')
-@bp.route('/user/<int:id>')
-def posts(id=-1):
-    titulo = request.args.get('titulo')
+@bp.route('/user/<int:id>/books')
+@login_required
+def list_books(id):
 
-    data = dict(
-        path = request.path,
-        referrer = request.referrer,
-        content_type = request.content_type,
-        method = request.method,
-        titulo = titulo,
-        id = id
-    )
+    books = Book.query.filter_by(user_id = id).all()
 
-    return data
+    return render_template('books.html', books = books)
