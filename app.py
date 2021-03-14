@@ -1,7 +1,8 @@
 from flask import Flask
 from models import login_manager, db
-from routes import bp
-
+from routes.auth import auth as auth_bp
+from routes.user import user as user_bp
+from routes.book import book as book_bp
 
 def create_app():
 
@@ -13,6 +14,8 @@ def create_app():
         db.init_app(app)
         login_manager.init_app(app)
 
-        app.register_blueprint(bp)
+        app.register_blueprint(auth_bp)
+        app.register_blueprint(user_bp)
+        app.register_blueprint(book_bp)
 
         return app

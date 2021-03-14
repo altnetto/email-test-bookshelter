@@ -1,7 +1,7 @@
 {% macro register_form(form) %}
 
     <div class = 'container form'>
-        <form action="{{ url_for('bp.form_new_user') }}" method="post">
+        <form action="{{ url_for('user.form_new_user') }}" method="post">
             {{ form.csrf_token }}
             <fieldset>
                 <div class="form-group" style='width: 30%'>

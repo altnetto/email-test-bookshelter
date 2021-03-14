@@ -1,7 +1,7 @@
 {% macro book_form(form) %}
 
     <div class = 'container form'>
-        <form action="{{ url_for('bp.add_book') }}" method="POST">
+        <form action="{{ url_for('book.add_book') }}" method="POST">
             {{ form.csrf_token }}
             <fieldset>
                 <div class="form-group mb-3" style='width: 30%'>

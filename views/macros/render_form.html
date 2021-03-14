@@ -1,7 +1,7 @@
 {% macro render_form(form) %}
 
 <div class = 'container form'>
-    <form action="{{ url_for('bp.login') }}" method="post">
+    <form action="{{ url_for('auth.login') }}" method="post">
 
         <!-- Aqui, adiciona-se o token CSRF, para evitar envio cruzado de informações
         e consequentes roubos de informação -->
