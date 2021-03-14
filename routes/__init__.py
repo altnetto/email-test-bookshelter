@@ -1,5 +1,5 @@
 from flask import Blueprint, request, Response, render_template, redirect, url_for, flash
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Profile, db, login_manager, Book
 from datetime import timedelta
@@ -123,21 +123,32 @@ def logout():
 @login_required
 def user_add_book(id):
     
-    form = UserBookForm()
+    if id == current_user.id:
+            
+        form = UserBookForm()
 
-    # if form.validate_on_submit():
+        if form.validate_on_submit():
 
-    #     name = form.name.data
+            book = Book.query.get(form.book.data)
 
-    #     new_book = Book(name = name)
+            if book not in current_user.books:
 
-    #     db.session.add(new_book)
-    #     db.session.commit()
+                current_user.books.append(book)
 
-    #     return redirect(url_for('bp.list_books', id=id))
+                db.session.add(current_user)
+                db.session.commit()
 
-    return render_template('user_add_book.html',title="User Add Book", form = form, id=id)
+                flash(message='O livro {0} foi adicionado com sucesso para o usuário {1}'.format(book.name,current_user.name), category='success')
 
+            else:
+                flash(message='O livro {0} já está na sua lista de livros'.format(book.name), category='warning')
+
+        return render_template('user_add_book.html',title="User Add Book", form = form)
+
+    else:
+
+        flash(message='{0} você não possui permissão para acessar os livros desse usuário'.format(current_user.name), category='warning')
+        return redirect(url_for('bp.index'))
 
 @bp.route('/books/add', methods=["GET", "POST"])
 @login_required
