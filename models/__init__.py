@@ -9,6 +9,15 @@ login_manager = LoginManager()
 def current_user(user_id):
     return User.query.get(user_id)
 
+# tabela many to many, que irá referenciar tanto usuários que possuem um determinado livro como
+# livros que um usuário possui
+
+books_in_users = db.Table("books_users",
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=False),
+    db.Column('book_id', db.Integer, db.ForeignKey('books.id'), nullable=False),
+)
+
+
 
 class User(db.Model, UserMixin):
     __tablename__ = "users"
@@ -17,8 +26,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(84), nullable = False, unique = True, index = True)
     password = db.Column(db.String(255), nullable = False)
     profile = db.relationship('Profile', backref = 'user', uselist=False)
-    books = db.relationship('Book', backref = 'user', uselist=False)
-
+    books = db.relationship('Book', secondary=books_in_users, lazy=True, backref='users')
 
     def __str__(self):
         return self.name
@@ -39,8 +47,6 @@ class Book(db.Model):
     __tablename__ = "books"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(125), nullable = False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
 
     def __str__(self):
             return self.name

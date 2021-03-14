@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% from 'macros/book_form.html' import book_form with context %}
+
+{% block content %}
+    {{ book_form(form) }}
+    
+    <div class="container mt-3">
+        <h3>Books</h3>
+        
+        <ul class="list-group list-group-flush">
+            {% for book in books %}
+                <li class="list-group-item">{{ book.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

@@ -3,7 +3,7 @@ from flask_login import login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User, Profile, db, login_manager, Book
 from datetime import timedelta
-from dinForms.forms import LoginForm, RegisterForm, BookForm
+from dinForms.forms import LoginForm, RegisterForm, BookForm, UserBookForm
 
 bp = Blueprint('bp', __name__)
 
@@ -119,23 +119,45 @@ def logout():
     return redirect(url_for('bp.index'))
 
 
-@bp.route('/user/<int:id>/books', methods=["GET", "POST"])
+@bp.route('/user/<int:id>/add-book', methods=["GET", "POST"])
 @login_required
-def list_books(id):
-
-    books = Book.query.filter_by(user_id = id).all()
+def user_add_book(id):
     
+    form = UserBookForm()
+
+    # if form.validate_on_submit():
+
+    #     name = form.name.data
+
+    #     new_book = Book(name = name)
+
+    #     db.session.add(new_book)
+    #     db.session.commit()
+
+    #     return redirect(url_for('bp.list_books', id=id))
+
+    return render_template('user_add_book.html',title="User Add Book", form = form, id=id)
+
+
+@bp.route('/books/add', methods=["GET", "POST"])
+@login_required
+def add_book():
+
     form = BookForm()
+
+    books = Book.query.all()
 
     if form.validate_on_submit():
 
         name = form.name.data
 
-        new_book = Book(name = name, user_id = id)
+        new_book = Book(name = name)
 
         db.session.add(new_book)
         db.session.commit()
 
-        return redirect(url_for('bp.list_books', id=id))
+        flash(message='O livro {} foi adicionado com sucesso'.format(name), category='success')
 
-    return render_template('books.html',title="Bookshelter" , books = books, form = form, id=id)
+        return redirect(url_for('bp.add_book'))
+
+    return render_template('add-book.html',title="Add Book", form = form, books=books)

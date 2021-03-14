@@ -1,12 +1,12 @@
-{% macro book_form(form) %}
+{% macro user_book_form(form) %}
 
     <div class = 'container form'>
-        <form action="{{ url_for('bp.add_book') }}" method="POST">
+        <form action="{{ url_for('bp.user_add_book', id=id) }}" method="POST">
             {{ form.csrf_token }}
             <fieldset>
                 <div class="form-group mb-3" style='width: 30%'>
-                    <label for="name">Name</label>
-                    {{ form.name(class_='form-control') }}
+                    <label for="book">Livro</label>
+                    {{ form.book(class_='form-control') }}
                 </div>
 
                 {{ form.submit(class_='btn btn-primary btn-m') }}

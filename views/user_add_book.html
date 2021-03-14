@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% from "macros/user_book_form.html" import user_book_form with context  %}
+
+{% block content %}
+
+{{ user_book_form(form) }}
+
+{% endblock %}
