@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms.fields.html5 import EmailField
 from wtforms.fields import PasswordField, BooleanField, SubmitField, StringField, SelectField
 from wtforms.validators import Length, Email
+from models import Book
 
 class LoginForm(FlaskForm):
     email = EmailField('Email', validators=[
@@ -36,8 +37,11 @@ class BookForm(FlaskForm):
 
 
 class UserBookForm(FlaskForm):
-    book = SelectField("Livro",
-        coerce = int,
-        choices=[]
-    )
+    # books = Book.query.all()
+    
+    book = SelectField("Livro", coerce = int)
     submit = SubmitField('Adicionar')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args,**kwargs)
+        self.book.choices = [ (book.id, book.name) for book in Book.query.all() ]
