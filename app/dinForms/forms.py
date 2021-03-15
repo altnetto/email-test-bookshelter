@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms.fields.html5 import EmailField
 from wtforms.fields import PasswordField, BooleanField, SubmitField, StringField, SelectField
-from wtforms.validators import Length, Email
-from models import Book
+from wtforms.validators import Length, Email, DataRequired
+from app.models import Book
 
 class LoginForm(FlaskForm):
     email = EmailField('Email', validators=[
@@ -17,7 +17,7 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     name = StringField('Nome', validators=[
-        Length(2,150, "O campo deve conter entre 2 e 150 caracteres")
+        Length(2,150, "O campo deve conter entre 2 e 150 caracteres"),
     ])
     email = EmailField('Email', validators=[
         Email()
@@ -45,3 +45,18 @@ class UserBookForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
         self.book.choices = [ (book.id, book.name) for book in Book.query.all() ]
+
+
+class EmailForm(FlaskForm):
+    name = StringField('Nome', validators=[
+        Length(2,150, "O campo deve conter entre 2 e 150 caracteres"),
+        DataRequired()
+    ])
+    email = EmailField('Email', validators=[
+        Email(),
+        DataRequired()
+    ])
+    message = StringField('Mensagem', validators=[
+        Length(10,500, "O campo deve conter entre 10 e 500 caracteres")
+    ])
+    submit = SubmitField('Send Mail')

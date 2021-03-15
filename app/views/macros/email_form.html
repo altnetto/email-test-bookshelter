@@ -1,0 +1,26 @@
+{% macro email_form(form) %}
+
+    <div class = 'container form'>
+        <form action="{{ url_for('email.send_mail') }}" method="post">
+            {{ form.csrf_token }}
+            <fieldset>
+                <div class="form-group" style='width: 30%'>
+                    <label for="name">Name</label>
+                    {{ form.name(class_='form-control') }}
+
+                    <label for="email">Email</label>
+                    {{ form.email(class_='form-control') }}
+
+                    <label for="message">Message</label>
+                    {{ form.message(class_='form-control') }}
+                </div>
+
+                {{ form.submit(class_='btn btn-info btn-block btn-m') }}
+                
+                {% include 'components/voltar.html' %} 
+
+            </fieldset>
+        </form>
+    </div>
+
+{% endmacro %}

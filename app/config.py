@@ -13,6 +13,14 @@ class Config:
     TEMPLATE_FOLDER = 'views'
     FLASK_APP = 'app'
 
+    MAIL_SERVER : 'smtp.ethereal.email'
+    MAIL_PORT : 587
+    MAIL_USE_TLS : True
+    MAIL_DEBUG : True
+    MAIL_USERNAME : 'madalyn.okuneva@ethereal.email'
+    MAIL_PASSWORD : 'SrQxbcYkaNB8ZEarfV'
+    MAIL_DEFAULT_SENDER : 'Teste <teste@teste.com.br>'
+
 
 # Here, we set the inheritance of the ProdConfig with the Config
 class ProdConfig(Config):

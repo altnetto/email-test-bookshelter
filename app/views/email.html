@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+
+{% from "macros/email_form.html" import email_form with context  %}
+
+{% block content %}
+
+{{ email_form(form) }}
+
+{% endblock %}
