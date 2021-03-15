@@ -7,26 +7,35 @@
         <ul class="navbar-nav">
         {% if current_user.is_authenticated %}
             <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('user.form_new_user') }}">Register User</a>
+              <a class="nav-link" href="{{ url_for('user.form_new_user') }}">Register User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="{{ url_for('auth.login') }}">Login</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('book.add_book') }}">New Book</a>
             </li>  
             <li class="nav-item">
-            <a class="nav-link disabled" href="{{ url_for('auth.login') }}">Login</a>
+              <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+              <a class="nav-link" href="{{ url_for('email.send_mail') }}">Send Mail</a>
             </li>
         {% else %}
             <li class="nav-item">
-            <a class="nav-link disabled" href="{{ url_for('user.form_new_user') }}">Register User</a>
+              <a class="nav-link disabled" href="{{ url_for('user.form_new_user') }}">Register User</a>
+            </li> 
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+              <a class="nav-link disabled" href="{{ url_for('book.add_book') }}">New Book</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link disabled" href="{{ url_for('auth.logout') }}">Logout</a>
+              <a class="nav-link disabled" href="{{ url_for('auth.logout') }}">Logout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="{{ url_for('email.send_mail') }}">Send Mail</a>
             </li>
         {% endif %}
       </ul>

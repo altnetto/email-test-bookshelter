@@ -37,8 +37,6 @@ class BookForm(FlaskForm):
 
 
 class UserBookForm(FlaskForm):
-    # books = Book.query.all()
-    
     book = SelectField("Livro", coerce = int)
     submit = SubmitField('Adicionar')
 
